@@ -42,8 +42,8 @@ function App() {
   return (
     <>
       <div>
-        <div className="nav-bar">
-          <h1 className="text-center">Pokédex</h1>
+        <div className="nav-bar d-flex justify-content-center">
+          <img src={require("./assets/pokemon_logo.png")} className="pokemon_logo"/>
         </div>
         <div className="d-flex flex-column align-items-center">
           <form onSubmit={handleSubmit} className="mt-3">
