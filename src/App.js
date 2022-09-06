@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import "./App.css";
 import PokeStats from "./Components/PokeStats";
@@ -10,22 +10,29 @@ function App() {
   const [statsOrdering, setStatsOrdering] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const getPokemon = async () => {
+  const getPokemon = useCallback(async () => {
     setLoading(true);
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-    const res = await axios.get(url);
+    const res = await axios.get(
+      url
+      //   {
+      //   validateStatus: function (status) {
+      //     return status >= 200 && status < 300 || status === 404;
+      //   },
+      // }
+    );
     setStatsOrdering(null);
-    setPokemonData(res?.data);
     setLoading(false);
-  };
+    setPokemonData(res?.data);
+  }, [pokemon]);
 
   useEffect(() => {
     getPokemon();
-  }, [pokemon]);
+  }, [pokemon, getPokemon]);
 
   const handleChange = (e) => {
     if (!e.target.value) return setPokemon("pikachu");
-      setPokemon(e.target.value.toLowerCase());
+    setPokemon(e.target.value.toLowerCase());
   };
 
   const handleSubmit = (e) => {
