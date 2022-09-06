@@ -7,17 +7,20 @@ import PokeStats from "./Components/PokeStats";
 function App() {
   const [pokemon, setPokemon] = useState("pikachu");
   const [pokemonData, setPokemonData] = useState([]);
+  const [statsOrdering, setStatsOrdering] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   const getPokemon = async () => {
     try {
       setLoading(true);
       const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
       const res = await axios.get(url);
+      setStatsOrdering(null);
       setPokemonData(res.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log(error); //modificarlo
     }
   };
 
@@ -26,12 +29,11 @@ function App() {
   }, [pokemon]);
 
   const handleChange = (e) => {
-    if(!e.target.value) {
+    if (!e.target.value) {
       return setPokemon("pikachu");
     } else {
       setPokemon(e.target.value.toLowerCase());
     }
-    
   };
 
   const handleSubmit = (e) => {
@@ -39,11 +41,25 @@ function App() {
     getPokemon();
   };
 
+  const toggleStatsOrdering = () => {
+    setStatsOrdering((oldStatsOrdering) => {
+      if (statsOrdering == null) {
+        return 1;
+      } else {
+        return oldStatsOrdering * -1;
+      }
+    });
+  };
+
   return (
     <>
       <div>
         <div className="nav-bar d-flex justify-content-center">
-          <img src={require("./assets/pokemon_logo.png")} className="pokemon_logo"/>
+          <img
+            src={require("./assets/pokemon_logo.png")}
+            alt={"pokemon-logo"}
+            className="pokemon_logo"
+          />
         </div>
         <div className="d-flex flex-column align-items-center">
           <form onSubmit={handleSubmit} className="mt-3">
@@ -62,9 +78,17 @@ function App() {
               <div className="card-image">
                 <h3> {pokemonData.name} </h3>
 
-                <img src={pokemonData.sprites.front_default} alt={`Pokémon ${pokemonData.name} image`} className="border"/>
+                <img
+                  src={pokemonData.sprites.front_default}
+                  alt={`Pokémon ${pokemonData.name}`}
+                  className="border"
+                />
               </div>
-              <PokeStats pokemonData={pokemonData} setPokemonData={setPokemonData} />
+              <PokeStats
+                pokemonData={pokemonData}
+                toggleStatsOrdering={toggleStatsOrdering}
+                statsOrdering={statsOrdering}
+              />
             </div>
           )}
         </div>
