@@ -50,7 +50,7 @@ function App() {
             <label>
               <input
                 type={"text"}
-                placeholder={"Enter your Pokémon"}
+                placeholder={"Enter your Pokémon name"}
                 onChange={handleChange}
               />
             </label>
@@ -59,7 +59,7 @@ function App() {
             <Spinner animation="border" />
           ) : (
             <div className="poke-card d-flex w-50 justify-content-around p-3 mt-3">
-              <div>
+              <div className="card-image">
                 <h3> {pokemonData.name} </h3>
 
                 <img src={pokemonData.sprites.front_default} alt={`Pokémon ${pokemonData.name} image`} className="border"/>

@@ -13,9 +13,9 @@ function PokeStats({pokemonData, setPokemonData}) {
     
   
   return (
-    <div>
-        <h3>Stats</h3>
-        <ul>
+    <div className='p-2'>
+        <h5>Stats:</h5>
+        <ul className='poke-stats p-3'>
             {
                 pokemonData.stats.map((item, i) => {
                  return <li key={i}> {item.stat.name}: {item.base_stat} </li>
