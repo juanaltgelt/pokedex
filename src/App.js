@@ -10,18 +10,13 @@ function App() {
   const [statsOrdering, setStatsOrdering] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   const getPokemon = async () => {
-    try {
-      setLoading(true);
-      const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-      const res = await axios.get(url);
-      setStatsOrdering(null);
-      setPokemonData(res.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error); //modificarlo
-    }
+    setLoading(true);
+    const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+    const res = await axios.get(url);
+    setStatsOrdering(null);
+    setPokemonData(res?.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -29,11 +24,8 @@ function App() {
   }, [pokemon]);
 
   const handleChange = (e) => {
-    if (!e.target.value) {
-      return setPokemon("pikachu");
-    } else {
+    if (!e.target.value) return setPokemon("pikachu");
       setPokemon(e.target.value.toLowerCase());
-    }
   };
 
   const handleSubmit = (e) => {
@@ -62,25 +54,24 @@ function App() {
           />
         </div>
         <div className="d-flex flex-column align-items-center">
-          <form onSubmit={handleSubmit} className="mt-3">
-            <label>
-              <input
-                type={"text"}
-                placeholder={"Enter your Pokémon name"}
-                onChange={handleChange}
-              />
-            </label>
+          <form onSubmit={handleSubmit} className="my-4">
+            <label></label>
+            <input
+              type={"text"}
+              placeholder={"Enter your Pokémon name or id"}
+              onChange={handleChange}
+            />
           </form>
           {loading ? (
             <Spinner animation="border" />
           ) : (
-            <div className="poke-card d-flex w-50 justify-content-around p-3 mt-3">
-              <div className="card-image">
-                <h3> {pokemonData.name} </h3>
+            <div className="poke-card d-flex w-50 justify-content-around p-3">
+              <div className="poke-image">
+                <h3 className="text-capitalize mb-3"> {pokemonData?.name} </h3>
 
                 <img
-                  src={pokemonData.sprites.front_default}
-                  alt={`Pokémon ${pokemonData.name}`}
+                  src={pokemonData?.sprites?.front_default}
+                  alt={`Pokémon ${pokemonData?.name}`}
                   className="border"
                 />
               </div>
