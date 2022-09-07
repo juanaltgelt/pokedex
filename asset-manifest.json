@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/pokedex/static/css/main.50e5ff9c.css",
+    "main.js": "/pokedex/static/js/main.3646b479.js",
+    "static/media/pokemon_logo.png": "/pokedex/static/media/pokemon_logo.11012dfdc20912a1a39b.png",
+    "static/media/pikachu-running.gif": "/pokedex/static/media/pikachu-running.59655e146c0ae543f34c.gif",
+    "index.html": "/pokedex/index.html",
+    "static/media/descendent-arrow.svg": "/pokedex/static/media/descendent-arrow.7cf38a182419f9afa1e187dfa0ddb7e1.svg",
+    "static/media/ascendent-arrow.svg": "/pokedex/static/media/ascendent-arrow.294cac026b2b478e9efaac6bc62425db.svg",
+    "static/media/right-arrow.svg": "/pokedex/static/media/right-arrow.e1b54b305e258724dcf229cf04259265.svg",
+    "main.50e5ff9c.css.map": "/pokedex/static/css/main.50e5ff9c.css.map",
+    "main.3646b479.js.map": "/pokedex/static/js/main.3646b479.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.50e5ff9c.css",
+    "static/js/main.3646b479.js"
+  ]
+}
