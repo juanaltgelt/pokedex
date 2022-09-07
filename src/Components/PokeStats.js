@@ -1,5 +1,6 @@
 import { ReactComponent as DescendentArrow } from "../assets/descendent-arrow.svg";
 import { ReactComponent as AscendentArrow } from "../assets/ascendent-arrow.svg";
+import { ReactComponent as RightArrow } from "../assets/right-arrow.svg";
 
 
 function PokeStats({ pokemonData, toggleStatsOrdering, statsOrdering }) {
@@ -16,11 +17,15 @@ function PokeStats({ pokemonData, toggleStatsOrdering, statsOrdering }) {
 
   return (
     <div className="p-2">
-      <button onClick={toggleStatsOrdering} className="stats-btn align-items-center">
-        Stats  {statsOrdering == null ?  "" : statsOrdering === 1 ? <AscendentArrow className="ms-1"/> : <DescendentArrow className="ms-1"/>}
+     <div className="d-flex align-items-center">
+     <h1 className="me-2 sort-title">Sort By</h1>
+     <button onClick={toggleStatsOrdering} className="sort-btn align-items-center">
+         {statsOrdering == null ?  <RightArrow /> : statsOrdering === 1 ? <AscendentArrow className="ms-1"/> : <DescendentArrow className="ms-1"/>}
       </button>
-
-      <ul className="poke-stats p-3">
+     </div>
+      <div className="poke-stats p-2">
+        <h5>Stats:</h5>
+      <ul className="ps-1" >
         {orderedStats?.map((item, i) => {
           return (
             <li key={i} className="text-capitalize">
@@ -30,6 +35,7 @@ function PokeStats({ pokemonData, toggleStatsOrdering, statsOrdering }) {
           );
         })}
       </ul>
+      </div>
     </div>
   );
 }

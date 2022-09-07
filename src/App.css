@@ -43,17 +43,25 @@ input {
   background-color: #ffd322;
 }
 
-.stats-btn {
+.sort-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: .5rem;
   background-color: #263238;
   color: white;
   border-radius: 5px;
-  padding: 0.2em 0;
-  width: 100%;
+  padding: 0.2rem;
+  width: 50%;
+}
+
+.sort-title {
+  font-size: 20px;
+  color: #898787;
 }
 
 .poke-card {
-  color: #4c5773;
+    color: #4c5773;
     background-color: white;
     border: 1px solid rgb(237, 242, 245);
     border-radius: 6px;
@@ -62,7 +70,7 @@ input {
 
 .poke-stats {
   background: #F4F4F4;
-border-radius: 5px;
+  border-radius: 5px;
   width: 250px;
 }
 

@@ -1,7 +1,7 @@
-import axios from "axios";
-import debounce from "lodash.debounce";
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
+import axios from "axios";
+import debounce from "lodash.debounce";
 import PokeStats from "./Components/PokeStats";
 
 const RandomPokemon = Math.floor(Math.random() * 806 + 1);
@@ -11,17 +11,17 @@ function App() {
   const [pokemonData, setPokemonData] = useState([]);
   const [statsOrdering, setStatsOrdering] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   const getPokemon = useCallback(async () => {
-    setError(false);
+    setNotFound(false);
     setLoading(true);
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
     try {
       const res = await axios.get(url);
       setPokemonData(res?.data);
     } catch (err) {
-      setError(true);
+      setNotFound(true);
     }
     setStatsOrdering(null);
     setLoading(false);
@@ -78,6 +78,7 @@ function App() {
               placeholder={"Enter your Pokémon name or id"}
               name="query"
               onChange={debouncedOnChange}
+              autoComplete="off"
             />
           </form>
           {loading ? (
@@ -88,7 +89,7 @@ function App() {
                 className="loading-gif"
               />
             </>
-          ) : error ? (
+          ) : notFound ? (
             <h3>No Pokémon Matched Your Search!</h3>
           ) : (
             pokemonData && (
