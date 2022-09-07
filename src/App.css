@@ -1,8 +1,5 @@
-
-
 body {
   background-color: #fbfbfb;
-  
 }
 
 li {
@@ -24,23 +21,6 @@ input {
   border: 1px solid #B4B4B4;
   border-radius: 20px;
   outline: 0;
-}
-
-.search-btn {
-  margin-bottom: .5rem;
-  min-width: 90px;
-  padding: 10px 10px;
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #ffcc00;
-  border: none;
-  border-radius: 5px;
-  letter-spacing: 0.5px;
-  color: black;
-}
-
-.search-btn:hover {
-  background-color: #ffd322;
 }
 
 .sort-btn {
