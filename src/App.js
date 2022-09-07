@@ -1,43 +1,53 @@
 import axios from "axios";
+import debounce from "lodash.debounce";
 import { useCallback, useEffect, useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
 import "./App.css";
 import PokeStats from "./Components/PokeStats";
+
+const RandomPokemon = Math.floor(Math.random() * 806 + 1);
 
 function App() {
   const [pokemon, setPokemon] = useState("pikachu");
   const [pokemonData, setPokemonData] = useState([]);
   const [statsOrdering, setStatsOrdering] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const getPokemon = useCallback(async () => {
+    setError(false);
     setLoading(true);
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-    const res = await axios.get(
-      url
-      //   {
-      //   validateStatus: function (status) {
-      //     return status >= 200 && status < 300 || status === 404;
-      //   },
-      // }
-    );
+    try {
+      const res = await axios.get(url);
+      setPokemonData(res?.data);
+    } catch (err) {
+      setError(true);
+    }
     setStatsOrdering(null);
     setLoading(false);
-    setPokemonData(res?.data);
   }, [pokemon]);
 
   useEffect(() => {
     getPokemon();
   }, [pokemon, getPokemon]);
 
-  const handleChange = (e) => {
-    if (!e.target.value) return setPokemon("pikachu");
-    setPokemon(e.target.value.toLowerCase());
+  const handleSubmit = (event) => {
+    event.preventDefault();
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    getPokemon();
+  const updateQuery = (e) => callApi(e?.target?.value);
+
+  const debouncedOnChange = debounce(updateQuery, 1000);
+
+  const callApi = (value) => {
+    const query = value;
+    setLoading(true);
+    if (query) {
+      setPokemon(query.toLowerCase());
+    } else {
+      setPokemon(RandomPokemon);
+    }
+    setLoading(false);
   };
 
   const toggleStatsOrdering = () => {
@@ -66,28 +76,42 @@ function App() {
             <input
               type={"text"}
               placeholder={"Enter your Pokémon name or id"}
-              onChange={handleChange}
+              name="query"
+              onChange={debouncedOnChange}
             />
           </form>
           {loading ? (
-            <Spinner animation="border" />
+            <>
+              <img
+                src={require("./assets/pikachu-running.gif")}
+                alt="pokemon-gif"
+                className="loading-gif"
+              />
+            </>
+          ) : error ? (
+            <h3>No Pokémon Matched Your Search!</h3>
           ) : (
-            <div className="poke-card d-flex w-50 justify-content-around p-3">
-              <div className="poke-image">
-                <h3 className="text-capitalize mb-3"> {pokemonData?.name} </h3>
+            pokemonData && (
+              <div className="poke-card d-flex w-50 justify-content-around p-3">
+                <div className="poke-image">
+                  <h3 className="text-capitalize mb-3">
+                    {" "}
+                    {pokemonData?.name}{" "}
+                  </h3>
 
-                <img
-                  src={pokemonData?.sprites?.front_default}
-                  alt={`Pokémon ${pokemonData?.name}`}
-                  className="border"
+                  <img
+                    src={pokemonData?.sprites?.front_default}
+                    alt={`Pokémon ${pokemonData?.name}`}
+                    className="border"
+                  />
+                </div>
+                <PokeStats
+                  pokemonData={pokemonData}
+                  toggleStatsOrdering={toggleStatsOrdering}
+                  statsOrdering={statsOrdering}
                 />
               </div>
-              <PokeStats
-                pokemonData={pokemonData}
-                toggleStatsOrdering={toggleStatsOrdering}
-                statsOrdering={statsOrdering}
-              />
-            </div>
+            )
           )}
         </div>
       </div>

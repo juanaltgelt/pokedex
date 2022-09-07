@@ -26,17 +26,30 @@ input {
   outline: 0;
 }
 
-.button-stats {
+.search-btn {
   margin-bottom: .5rem;
-  min-width: 135px;
-  padding: 8px 6px;
+  min-width: 90px;
+  padding: 10px 10px;
   font-size: 16px;
   font-weight: 600;
   background-color: #ffcc00;
   border: none;
-  border-radius: 2px;
+  border-radius: 5px;
   letter-spacing: 0.5px;
   color: black;
+}
+
+.search-btn:hover {
+  background-color: #ffd322;
+}
+
+.stats-btn {
+  margin-bottom: .5rem;
+  background-color: #263238;
+  color: white;
+  border-radius: 5px;
+  padding: 0.2em 0;
+  width: 100%;
 }
 
 .poke-card {
@@ -72,4 +85,8 @@ border-radius: 5px;
 .pokemon_logo {
   width: 200px;
   padding: .25rem;
+}
+
+.loading-gif {
+  width: 200px;
 }
