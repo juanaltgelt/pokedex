@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import debounce from "lodash.debounce";
@@ -13,23 +13,22 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  const getPokemon = useCallback(async () => {
-    setNotFound(false);
-    setLoading(true);
-    const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-    try {
-      const res = await axios.get(url);
-      setPokemonData(res?.data);
-    } catch (err) {
-      setNotFound(true);
-    }
-    setStatsOrdering(null);
-    setLoading(false);
-  }, [pokemon]);
-
   useEffect(() => {
+    async function getPokemon() {
+      setNotFound(false);
+      setLoading(true);
+      const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+      try {
+        const res = await axios.get(url);
+        setPokemonData(res?.data);
+      } catch (err) {
+        setNotFound(true);
+      }
+      setStatsOrdering(null);
+      setLoading(false);
+    }
     getPokemon();
-  }, [pokemon, getPokemon]);
+  }, [pokemon]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

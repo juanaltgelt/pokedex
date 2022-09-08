@@ -20,7 +20,8 @@ function PokeStats({ pokemonData, toggleStatsOrdering, statsOrdering }) {
      <div className="d-flex align-items-center">
      <h1 className="me-2 sort-title">Sort By</h1>
      <button onClick={toggleStatsOrdering} className="sort-btn align-items-center">
-         {statsOrdering == null ?  <RightArrow /> : statsOrdering === 1 ? <AscendentArrow className="ms-1"/> : <DescendentArrow className="ms-1"/>}
+
+         {!statsOrdering   ?  <RightArrow /> : statsOrdering === 1 ? <AscendentArrow className="ms-1"/> : <DescendentArrow className="ms-1"/>}
       </button>
      </div>
       <div className="poke-stats p-2">
