@@ -8,49 +8,39 @@ const RandomPokemon = Math.floor(Math.random() * 806 + 1);
 
 function App() {
   const [pokemon, setPokemon] = useState({
-    name: "pikachu",
+    name: RandomPokemon,
     loading: true,
     notFound: false
   });
   const [pokemonData, setPokemonData] = useState([]);
   const [statsOrdering, setStatsOrdering] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const [notFound, setNotFound] = useState(false);
 
-  useEffect(() => {
-    async function getPokemon() {
-      setPokemon(prevState => ({...prevState, notFound: false, loading: true}));
+  const getPokemon = async () => {
+    setPokemon(prevState => ({ ...prevState, notFound: false, loading: true }));
       const url = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`;
       try {
         const res = await axios.get(url);
         setPokemonData(res?.data);
       } catch (err) {
-        setPokemon(prevState => ({...prevState, notFound:true}))
+        setPokemon(prevState => ({ ...prevState, notFound: true }))
       }
       setStatsOrdering(null);
-      setPokemon(prevState => ({...prevState, loading: false}))
+      setPokemon(prevState => ({ ...prevState, loading: false }))
     }
+
+  useEffect(() => {
     getPokemon();
     // eslint-disable-next-line
   }, [pokemon.name]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
 
   const updateQuery = (e) => callApi(e?.target?.value);
 
   const debouncedOnChange = debounce(updateQuery, 1000);
 
   const callApi = (value) => {
-    const query = value;
-    setPokemon(prevState=> ({...prevState, loading: true}));
-    if (query) {
-      setPokemon(prevState => ({...prevState, name: query}))
-    } else {
-      setPokemon(prevState=> ({...prevState, name: RandomPokemon}));
-    }
-    setPokemon(prevState=> ({...prevState, loading: false}))
+    setPokemon(prevState => ({ ...prevState, loading: true }));
+    if (!value) return setPokemon(prevState => ({ ...prevState, name: RandomPokemon }));
+    setPokemon(prevState => ({ ...prevState, name: value, loading:false }))
   };
 
   const toggleStatsOrdering = () => {
@@ -63,9 +53,6 @@ function App() {
     });
   };
 
-  
-
-
   return (
     <>
       <div>
@@ -77,7 +64,7 @@ function App() {
           />
         </div>
         <div className="d-flex flex-column align-items-center">
-          <form onSubmit={handleSubmit} className="my-4">
+          <form onSubmit={(event) => event.preventDefault()} className="my-4">
             <label></label>
             <input
               type={"text"}
