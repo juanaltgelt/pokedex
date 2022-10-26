@@ -7,28 +7,32 @@ import PokeStats from "./Components/PokeStats";
 const RandomPokemon = Math.floor(Math.random() * 806 + 1);
 
 function App() {
-  const [pokemon, setPokemon] = useState("pikachu");
+  const [pokemon, setPokemon] = useState({
+    name: "pikachu",
+    loading: true,
+    notFound: false
+  });
   const [pokemonData, setPokemonData] = useState([]);
   const [statsOrdering, setStatsOrdering] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     async function getPokemon() {
-      setNotFound(false);
-      setLoading(true);
-      const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+      setPokemon(prevState => ({...prevState, notFound: false, loading: true}));
+      const url = `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`;
       try {
         const res = await axios.get(url);
         setPokemonData(res?.data);
       } catch (err) {
-        setNotFound(true);
+        setPokemon(prevState => ({...prevState, notFound:true}))
       }
       setStatsOrdering(null);
-      setLoading(false);
+      setPokemon(prevState => ({...prevState, loading: false}))
     }
     getPokemon();
-  }, [pokemon]);
+    // eslint-disable-next-line
+  }, [pokemon.name]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -40,13 +44,13 @@ function App() {
 
   const callApi = (value) => {
     const query = value;
-    setLoading(true);
+    setPokemon(prevState=> ({...prevState, loading: true}));
     if (query) {
-      setPokemon(query.toLowerCase());
+      setPokemon(prevState => ({...prevState, name: query}))
     } else {
-      setPokemon(RandomPokemon);
+      setPokemon(prevState=> ({...prevState, name: RandomPokemon}));
     }
-    setLoading(false);
+    setPokemon(prevState=> ({...prevState, loading: false}))
   };
 
   const toggleStatsOrdering = () => {
@@ -58,6 +62,9 @@ function App() {
       }
     });
   };
+
+  
+
 
   return (
     <>
@@ -80,7 +87,7 @@ function App() {
               autoComplete="off"
             />
           </form>
-          {loading ? (
+          {pokemon.loading ? (
             <>
               <img
                 src={require("./assets/pikachu-running.gif")}
@@ -88,7 +95,7 @@ function App() {
                 className="loading-gif"
               />
             </>
-          ) : notFound ? (
+          ) : pokemon.notFound ? (
             <h3>No Pokémon Matched Your Search!</h3>
           ) : (
             pokemonData && (
